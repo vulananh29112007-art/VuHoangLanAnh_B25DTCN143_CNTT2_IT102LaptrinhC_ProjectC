@@ -77,11 +77,9 @@ void addEmployee(struct Employee list[], int *n){
         printf("Luong co ban: ");
         if (scanf("%lf", &list[*n].baseSalary) != 1) {
             printf("Nhap sai dinh dang!\n");
-            getchar();
+            while (getchar() != '\n'); // Xoa toan bo buffer
             continue;
         }
-        getchar();
-
         if (list[*n].baseSalary <= 0) {
             printf("Luong khong hop le! Nhap lai.\n");
             continue;
@@ -97,10 +95,9 @@ void addEmployee(struct Employee list[], int *n){
             getchar();
             continue;
         }
-        getchar();
 
         if (list[*n].workDay < 0 || list[*n].workDay > 31) {
-            printf("Ngay cong phai tu 0–31!\n");
+            printf("Ngay cong phai tu 0 den 31!\n");
             continue;
         }
         
@@ -163,11 +160,13 @@ void updateEmployee(struct Employee list[], int *n){
 
     // ktra cap nhat luong
     while (1) {
-        printf("Nhap luong co ban moi: ");
-        scanf("%lf", &list[pos].baseSalary);
-        getchar();
-
-        if (list[pos].baseSalary <= 0) {
+        printf("Luong co ban moi: ");
+        if (scanf("%lf", &list[*n].baseSalary) != 1) {
+            printf("Nhap sai dinh dang!\n");
+            while (getchar() != '\n'); // Xoa toan bo buffer
+            continue;
+        }
+        if (list[*n].baseSalary <= 0) {
             printf("Luong khong hop le! Nhap lai.\n");
             continue;
         }
@@ -186,7 +185,7 @@ void updateEmployee(struct Employee list[], int *n){
         }
 
         if (list[*n].workDay < 0 || list[*n].workDay > 31) {
-            printf("Ngay cong phai tu 0–31! Nhap lai.\n");
+            printf("Ngay cong phai tu 0 den 31! Nhap lai.\n");
             continue;
         }
 
@@ -233,10 +232,10 @@ int main(){
 		printf("\n =============================================\n");
 	    printf("|        QUAN LY NHAN VIEN VA CHAM CONG       |");
 	    printf("\n| ==========================================  |\n");
-	    printf("|  1.Hien thi danh sach nhan vien             |\n");
-	    printf("|  2.Them nhan vien moi                       |\n");                 
-	    printf("|  3.Cap nhat ho so nhan vien                 |\n");
-	    printf("|  4.Xoa ho so nhan vien                      |\n");
+	    printf("|  1.Them nhan vien moi                       |\n");
+	    printf("|  2.Cap nhat ho so nhan vien                 |\n");                 
+	    printf("|  3.Xoa ho so nhan vien                      |\n");
+	    printf("|  4.Hien thi danh sach nhan vien             |\n");
 	    printf("|  5.Tim kiem nhan vien                       |\n");
 	    printf("|  6.Sap xep nhan vien                        |\n");
 	    printf("|  7.Cham cong ngay nhan vien                 |\n");
@@ -260,11 +259,12 @@ int main(){
 			case 4:
 				displayEmployeeList(list,n);
 				break;
+			default:
+				printf("Khong hop le!");
 		}
 	}while(choice != 9);
 	
 	
 	return 0;
 }
-
 
