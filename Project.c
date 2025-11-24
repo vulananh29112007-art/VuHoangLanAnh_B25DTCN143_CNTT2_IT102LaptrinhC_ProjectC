@@ -261,9 +261,10 @@ int main(){
 				displayEmployeeList(list,n);
 				break;
 		}
-	}while(choice>0 && choice<10);
+	}while(choice != 9);
 	
 	
 	return 0;
 }
+
 
