@@ -1,5 +1,7 @@
 #include<stdio.h>
 #include<string.h>
+#define MAX 1000
+
 struct Employee{
 	char empId[20];
 	char name[50];
@@ -15,24 +17,20 @@ struct TimeSheet{
 	char status[10];
 };
 
-void addEmployee(struct Employee list[], int *n);
-void updateEmployee(struct Employee list[], int *n);
-void deleteEmployee (struct Employee list[], int *n);
-void displayEmployeeList(struct Employee list[], int n);
+int addEmployee (struct Employee list[], int n);
+int updateEmployee (struct Employee list[], int n);
+int deleteEmployee (struct Employee list[], int n);
+void displayEmployee (struct Employee list[], int n);
 
 int main(){
-	struct Employee list[100] = {
-		{"NV01", "Nguyen Van A", "Nhan vien", 5000000, 10},
-		{"NV02", "Tran Thi B", "Quan ly", 7000000, 12},
-		{"NV03", "Le Van C", "Ke toan", 6000000, 8}
-	};
-	int n = 3; 
+	struct Employee list[MAX];
+	int n = 0; 
 	int choice;
 	
 	do{
-		printf("\n =============================================\n");
+		printf("\n|=============================================|\n");
 	    printf("|        QUAN LY NHAN VIEN VA CHAM CONG       |");
-	    printf("\n| ==========================================  |\n");
+	    printf("\n|=============================================|\n");
 	    printf("|  1.Them nhan vien moi                       |\n");
 	    printf("|  2.Cap nhat ho so nhan vien                 |\n");                 
 	    printf("|  3.Xoa ho so nhan vien                      |\n");
@@ -42,7 +40,7 @@ int main(){
 	    printf("|  7.Cham cong ngay nhan vien                 |\n");
 	    printf("|  8.Xem bang cong nhan vien                  |\n");
 	    printf("|  9.Thoat                                    |\n");
-	    printf(" =============================================\n");
+	    printf("|=============================================|\n");
 		
 		printf("Moi ban nhap lua chon: ");
 		scanf("%d",&choice);
@@ -50,15 +48,26 @@ int main(){
 		
 		switch(choice){
 			case 1:
-				addEmployee(list,&n);
+				n = addEmployee(list,n);
 				break;
 			case 2:
-				updateEmployee(list,&n);
+				n = updateEmployee(list,n);
 				break;
 			case 3:
+				n = deleteEmployee(list, n);
 				break;
 			case 4:
-				displayEmployeeList(list,n);
+				displayEmployee(list,n);
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			case 7:
+				break;
+			case 8:
+				break;
+			case 9:
 				break;
 			default:
 				printf("Khong hop le!");
@@ -68,8 +77,13 @@ int main(){
 	
 	return 0;
 }
-void addEmployee(struct Employee list[], int *n){
+int addEmployee(struct Employee list[], int n){
     char id[20];
+    
+    if(n >= MAX){
+    	printf("Danh sach day!");
+    	return n;
+	}
 
     // nhap ma nhan vien 
     while (1) {
@@ -83,7 +97,7 @@ void addEmployee(struct Employee list[], int *n){
         }
 
         int flag = 0;
-        for (int i = 0; i < *n; i++) {
+        for (int i = 0; i < n; i++) {
             if (strcmp(list[i].empId, id) == 0) {
                 flag = 1;   // 1 = ton tai
                 break;
@@ -97,15 +111,15 @@ void addEmployee(struct Employee list[], int *n){
         break; 
     }
 
-    strcpy(list[*n].empId, id);
+    strcpy(list[n].empId, id);
 
     // kiem tra nhap ten
     while (1) {
         printf("Ten nhan vien: ");
-        fgets(list[*n].name, 50, stdin);
-        list[*n].name[strcspn(list[*n].name,"\n")] = '\0';
+        fgets(list[n].name, 50, stdin);
+        list[n].name[strcspn(list[n].name,"\n")] = '\0';
 
-        if (strlen(list[*n].name) == 0) {
+        if (strlen(list[n].name) == 0) {
             printf("Ten nhan vien khong duoc de trong!\n");
             continue;
         }
@@ -115,10 +129,10 @@ void addEmployee(struct Employee list[], int *n){
     // kiem tra nhap chuc vu
     while (1) {
         printf("Chuc vu nhan vien: ");
-        fgets(list[*n].position, 15, stdin);
-        list[*n].position[strcspn(list[*n].position,"\n")] = '\0';
+        fgets(list[n].position, 15, stdin);
+        list[n].position[strcspn(list[n].position,"\n")] = '\0';
 
-        if (strlen(list[*n].position) == 0) {
+        if (strlen(list[n].position) == 0) {
             printf("Chuc vu khong duoc de trong!\n");
             continue;
         }
@@ -128,12 +142,12 @@ void addEmployee(struct Employee list[], int *n){
     // ktra nhap luong 
     while (1) {
         printf("Luong co ban: ");
-        if (scanf("%lf", &list[*n].baseSalary) != 1) {
+        if (scanf("%lf", &list[n].baseSalary) != 1) {
             printf("Nhap sai dinh dang!\n");
             while (getchar() != '\n'); // Xoa toan bo buffer
             continue;
         }
-        if (list[*n].baseSalary <= 0) {
+        if (list[n].baseSalary <= 0) {
             printf("Luong khong hop le! Nhap lai.\n");
             continue;
         }
@@ -148,15 +162,15 @@ void addEmployee(struct Employee list[], int *n){
         getchar();
         
         if(choose == 1){
-        	list[*n].workDay = 0 ;
+        	list[n].workDay = 0 ;
         	printf("Workday = 0 \n");
         	break;
 		}else if(choose == 2){
 			printf("Nhap ngay cong: ");
-			scanf("%d",&list[*n].workDay);
+			scanf("%d",&list[n].workDay);
 			getchar();
 			
-			if(list[*n].workDay < 0 || list[*n].workDay > 31){
+			if(list[n].workDay < 0 || list[n].workDay > 31){
 				printf("Ngay cong phai tu 0 den 31\n");
 				continue;
 			}
@@ -167,12 +181,14 @@ void addEmployee(struct Employee list[], int *n){
 		
     }
 
-    (*n)++;
+    n++;
 
     printf("Them nhan vien thanh cong!\n");
+    
+    return n;
 }
 
-void updateEmployee(struct Employee list[], int *n){
+int updateEmployee(struct Employee list[], int n){
 	char id[20];
 	int pos = -1; 
 	 
@@ -189,7 +205,7 @@ void updateEmployee(struct Employee list[], int *n){
 	    }
 
         // ktra tim vi tri
-        for (int i = 0; i < *n; i++) {
+        for (int i = 0; i < n; i++) {
             if (strcmp(list[i].empId, id) == 0) {
                 pos = i;
                 break;
@@ -226,7 +242,6 @@ void updateEmployee(struct Employee list[], int *n){
             continue;
         }
         
-        while(getchar()!='\n');
         if (list[pos].baseSalary <= 0) {
             printf("Luong khong hop le! Nhap lai.\n");
             continue;
@@ -235,9 +250,11 @@ void updateEmployee(struct Employee list[], int *n){
     }
     
     printf("Cap nhat ho so nhan vien thanh cong!\n");
+    
+    return n;
 }
 
-void deleteEmployee (struct Employee list[], int *n){
+int deleteEmployee (struct Employee list[], int n){
 	char id[20];
 	int pos = -1;
 	
@@ -247,11 +264,11 @@ void deleteEmployee (struct Employee list[], int *n){
 		id[strcspn(id,"\n")] = '\0';
 		
 		if(strlen(id) == 0){
-			printf("Khong duoc de rong! Nhap lai\n");   //ktra id rong
+			printf("Ma nhan vien khong duoc de trong! Nhap lai\n");   //ktra id rong
 			continue;
 		}
 		
-		for(int i = 0;i<*n;i++){
+		for(int i = 0;i<n;i++){
 			if(strcmp(list[i].empId,id) == 0){
 				pos = i;
 				break;
@@ -259,40 +276,25 @@ void deleteEmployee (struct Employee list[], int *n){
 		}
 		
 		if(pos == -1){
-			printf("Khong ton tai Id! Nhap lai\n");     //ktra id ton tai, ko co kthuc luon
-			return;
+			printf("Khong tim thay nhan vien co ma %s! Nhap lai\n",id);     //ktra id ton tai, ko co kthuc luon
+			continue;
 		}
 		
 		break;
 	}
 	
-	//xac nhan xoa
-	int choose;
-	while(1){
-		printf("Chac chan xoa nhan vien khoi danh sach?(1:Co, 2:Khong)\n");
-		scanf("%d",&choose);
-		getchar();
-		
-		if(choose == 1){
-			for(int i = pos;i< (*n)-1;i++){
+	// XOA 
+	for(int i = pos;i< n-1;i++){
 				list[i] = list[i+1];
 			}
-			(*n)--;
+			n--;
 			printf("Xoa nhan vien %s thanh cong!\n",id);
 			return;
-		}else if(choose == 2){
-			printf("Huy xoa nhan vien %s thanh cong!\n",id);
-			return;
-		}else{
-			printf("Lua chon khong hop le! Chon lai\n");
-		}
-		
-		break;
-	}
 	
+	return n;
 }
 
-void displayEmployeeList(struct Employee list[], int n) {
+void displayEmployee(struct Employee list[], int n) {
     if (n == 0) {
         printf("Danh sach nhan vien hien dang trong!\n");
         return;
