@@ -15,6 +15,59 @@ struct TimeSheet{
 	char status[10];
 };
 
+void addEmployee(struct Employee list[], int *n);
+void updateEmployee(struct Employee list[], int *n);
+void deleteEmployee (struct Employee list[], int *n);
+void displayEmployeeList(struct Employee list[], int n);
+
+int main(){
+	struct Employee list[100] = {
+		{"NV01", "Nguyen Van A", "Nhan vien", 5000000, 10},
+		{"NV02", "Tran Thi B", "Quan ly", 7000000, 12},
+		{"NV03", "Le Van C", "Ke toan", 6000000, 8}
+	};
+	int n = 3; 
+	int choice;
+	
+	do{
+		printf("\n =============================================\n");
+	    printf("|        QUAN LY NHAN VIEN VA CHAM CONG       |");
+	    printf("\n| ==========================================  |\n");
+	    printf("|  1.Them nhan vien moi                       |\n");
+	    printf("|  2.Cap nhat ho so nhan vien                 |\n");                 
+	    printf("|  3.Xoa ho so nhan vien                      |\n");
+	    printf("|  4.Hien thi danh sach nhan vien             |\n");
+	    printf("|  5.Tim kiem nhan vien                       |\n");
+	    printf("|  6.Sap xep nhan vien                        |\n");
+	    printf("|  7.Cham cong ngay nhan vien                 |\n");
+	    printf("|  8.Xem bang cong nhan vien                  |\n");
+	    printf("|  9.Thoat                                    |\n");
+	    printf(" =============================================\n");
+		
+		printf("Moi ban nhap lua chon: ");
+		scanf("%d",&choice);
+		getchar(); 
+		
+		switch(choice){
+			case 1:
+				addEmployee(list,&n);
+				break;
+			case 2:
+				updateEmployee(list,&n);
+				break;
+			case 3:
+				break;
+			case 4:
+				displayEmployeeList(list,n);
+				break;
+			default:
+				printf("Khong hop le!");
+		}
+	}while(choice != 9);
+	
+	
+	return 0;
+}
 void addEmployee(struct Employee list[], int *n){
     char id[20];
 
@@ -195,6 +248,62 @@ void updateEmployee(struct Employee list[], int *n){
     printf("Cap nhat thanh cong!\n");
 }
 
+void deleteEmployee (struct Employee list[], int *n){
+	char id[20];
+	int pos = -1;
+	
+	while(1){
+		printf("Nhap ma nhan vien muon xoa: ");
+		fgets(id,20,stdin);    //nhap id
+		id[strcspn(id,"\n")] = '\0';
+		while(getchar() != '\n');
+		
+		if(strlen(id) == 0){
+			printf("Khong duoc de rong! Nhap lai\n");   //ktra id rong
+			continue;
+		}
+		
+		for(int i = 0;i<*n;i++){
+			if(strcmp(list[i].empId,id) == 0){
+				pos = i;
+			}
+		}
+		
+		if(pos == -1){
+			printf("Khong ton tai Id! Nhap lai\n");     //ktra id ton tai, ko co kthuc luon
+			return;
+		}
+		
+		break;
+	}
+	
+	while(1){
+		int choose;
+		
+		printf("Chac chan xoa nhan vien khoi danh sach?(1:Co, 2:Khong)\n");
+		scanf("%d",&choose);
+		getchar();
+		
+		if(choose == 1){
+			for(int i = pos;i< (*n)-1;i++){
+				list[i] = list[i+1];
+			}
+			(*n)--;
+			printf("Xoa nhan vien thanh cong!\n");
+			return;
+		}else if(choose == 2){
+			printf("Huy xoa nhan vien thanh cong!\n");
+			return;
+		}else{
+			printf("Lua chon khong hop le! Chon lai\n");
+			continue;
+		}
+		
+		break;
+	}
+	
+}
+
 void displayEmployeeList(struct Employee list[], int n) {
     if (n == 0) {
         printf("Danh sach nhan vien hien dang trong!\n");
@@ -219,52 +328,4 @@ void displayEmployeeList(struct Employee list[], int n) {
 }
 
 
-int main(){
-	struct Employee list[100] = {
-		{"NV01", "Nguyen Van A", "Nhan vien", 5000000, 10},
-		{"NV02", "Tran Thi B", "Quan ly", 7000000, 12},
-		{"NV03", "Le Van C", "Ke toan", 6000000, 8}
-	};
-	int n = 3; 
-	int choice;
-	
-	do{
-		printf("\n =============================================\n");
-	    printf("|        QUAN LY NHAN VIEN VA CHAM CONG       |");
-	    printf("\n| ==========================================  |\n");
-	    printf("|  1.Them nhan vien moi                       |\n");
-	    printf("|  2.Cap nhat ho so nhan vien                 |\n");                 
-	    printf("|  3.Xoa ho so nhan vien                      |\n");
-	    printf("|  4.Hien thi danh sach nhan vien             |\n");
-	    printf("|  5.Tim kiem nhan vien                       |\n");
-	    printf("|  6.Sap xep nhan vien                        |\n");
-	    printf("|  7.Cham cong ngay nhan vien                 |\n");
-	    printf("|  8.Xem bang cong nhan vien                  |\n");
-	    printf("|  9.Thoat                                    |\n");
-	    printf(" =============================================\n");
-		
-		printf("Moi ban nhap lua chon: ");
-		scanf("%d",&choice);
-		getchar(); 
-		
-		switch(choice){
-			case 1:
-				addEmployee(list,&n);
-				break;
-			case 2:
-				updateEmployee(list,&n);
-				break;
-			case 3:
-				break;
-			case 4:
-				displayEmployeeList(list,n);
-				break;
-			default:
-				printf("Khong hop le!");
-		}
-	}while(choice != 9);
-	
-	
-	return 0;
-}
 
