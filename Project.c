@@ -285,11 +285,10 @@ int deleteEmployee (struct Employee list[], int n){
 	
 	// XOA 
 	for(int i = pos;i< n-1;i++){
-				list[i] = list[i+1];
-			}
-			n--;
-			printf("Xoa nhan vien %s thanh cong!\n",id);
-			return;
+		list[i] = list[i+1];
+	}
+	n--;
+	printf("Xoa nhan vien %s thanh cong!\n",id);
 	
 	return n;
 }
