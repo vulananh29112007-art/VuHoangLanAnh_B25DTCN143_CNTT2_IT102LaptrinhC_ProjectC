@@ -142,23 +142,29 @@ void addEmployee(struct Employee list[], int *n){
 
     // cho phep nhap ngay cong
     while (1) {
-        printf("Nhap ngay cong: ");
-        if (scanf("%d", &list[*n].workDay) != 1) {
-            printf("Nhap sai dinh dang!\n");
-            getchar();
-            continue;
-        }
-
-        if (list[*n].workDay < 0 || list[*n].workDay > 31) {
-            printf("Ngay cong phai tu 0 den 31!\n");
-            continue;
-        }
+    	int choose;
+        printf("Nhap ngay cong (1. workday = 0, 2.Nhap tay): ");
+        scanf("%d",&choose);
+        getchar();
         
-        if(list[*n].workDay == 0){
-        	printf("Khong duoc de ngay cong trong! Nhap lai");
-        	continue;
+        if(choose == 1){
+        	list[*n].workDay = 0 ;
+        	printf("Workday = 0 \n");
+        	break;
+		}else if(choose == 2){
+			printf("Nhap ngay cong: ");
+			scanf("%d",&list[*n].workDay);
+			getchar();
+			
+			if(list[*n].workDay < 0 || list[*n].workDay > 31){
+				printf("Ngay cong phai tu 0 den 31\n");
+				continue;
+			}
+			break;
+		}else{
+			printf("Khong hop le!\n");
 		}
-		break; 
+		
     }
 
     (*n)++;
@@ -214,38 +220,21 @@ void updateEmployee(struct Employee list[], int *n){
     // ktra cap nhat luong
     while (1) {
         printf("Luong co ban moi: ");
-        if (scanf("%lf", &list[*n].baseSalary) != 1) {
+        if (scanf("%lf", &list[pos].baseSalary) != 1) {
             printf("Nhap sai dinh dang!\n");
             while (getchar() != '\n'); // Xoa toan bo buffer
             continue;
         }
-        if (list[*n].baseSalary <= 0) {
+        
+        while(getchar()!='\n');
+        if (list[pos].baseSalary <= 0) {
             printf("Luong khong hop le! Nhap lai.\n");
             continue;
         }
         break;
     }
     
-    //ktra ngay cong
-	while (1) {
-        printf("Nhap ngay cong: ");
-        int result = scanf("%d", &list[*n].workDay);
-        while(getchar() != '\n'); // xoa bo nho dem 
-
-        if (result != 1) {
-            printf("Khong duoc de trong ngay cong! Nhap lai.\n");
-            continue;
-        }
-
-        if (list[*n].workDay < 0 || list[*n].workDay > 31) {
-            printf("Ngay cong phai tu 0 den 31! Nhap lai.\n");
-            continue;
-        }
-
-        break;
-    } 
-
-    printf("Cap nhat thanh cong!\n");
+    printf("Cap nhat ho so nhan vien thanh cong!\n");
 }
 
 void deleteEmployee (struct Employee list[], int *n){
@@ -256,7 +245,6 @@ void deleteEmployee (struct Employee list[], int *n){
 		printf("Nhap ma nhan vien muon xoa: ");
 		fgets(id,20,stdin);    //nhap id
 		id[strcspn(id,"\n")] = '\0';
-		while(getchar() != '\n');
 		
 		if(strlen(id) == 0){
 			printf("Khong duoc de rong! Nhap lai\n");   //ktra id rong
@@ -266,6 +254,7 @@ void deleteEmployee (struct Employee list[], int *n){
 		for(int i = 0;i<*n;i++){
 			if(strcmp(list[i].empId,id) == 0){
 				pos = i;
+				break;
 			}
 		}
 		
@@ -277,9 +266,9 @@ void deleteEmployee (struct Employee list[], int *n){
 		break;
 	}
 	
+	//xac nhan xoa
+	int choose;
 	while(1){
-		int choose;
-		
 		printf("Chac chan xoa nhan vien khoi danh sach?(1:Co, 2:Khong)\n");
 		scanf("%d",&choose);
 		getchar();
@@ -289,14 +278,13 @@ void deleteEmployee (struct Employee list[], int *n){
 				list[i] = list[i+1];
 			}
 			(*n)--;
-			printf("Xoa nhan vien thanh cong!\n");
+			printf("Xoa nhan vien %s thanh cong!\n",id);
 			return;
 		}else if(choose == 2){
-			printf("Huy xoa nhan vien thanh cong!\n");
+			printf("Huy xoa nhan vien %s thanh cong!\n",id);
 			return;
 		}else{
 			printf("Lua chon khong hop le! Chon lai\n");
-			continue;
 		}
 		
 		break;
@@ -326,6 +314,5 @@ void displayEmployeeList(struct Employee list[], int n) {
 
     printf("Hien thi danh sach thanh cong!\n");
 }
-
 
 
