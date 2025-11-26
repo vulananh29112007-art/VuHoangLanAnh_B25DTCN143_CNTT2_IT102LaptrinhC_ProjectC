@@ -17,14 +17,16 @@ struct TimeSheet{
 	char status[10];
 };
 
-int addEmployee (struct Employee list[], int n);
-int updateEmployee (struct Employee list[], int n);
-int deleteEmployee (struct Employee list[], int n);
-void displayEmployee (struct Employee list[], int n);
+struct Employee list[MAX];
+int n = 0; 
+
+void addEmployee ();
+void updateEmployee ();
+void deleteEmployee ();
+void displayEmployee ();
+void searchEmployee (); 
 
 int main(){
-	struct Employee list[MAX];
-	int n = 0; 
 	int choice;
 	
 	do{
@@ -48,18 +50,19 @@ int main(){
 		
 		switch(choice){
 			case 1:
-				n = addEmployee(list,n);
+			addEmployee();
 				break;
 			case 2:
-				n = updateEmployee(list,n);
+			updateEmployee();
 				break;
 			case 3:
-				n = deleteEmployee(list, n);
+			deleteEmployee();
 				break;
 			case 4:
-				displayEmployee(list,n);
+			displayEmployee();
 				break;
 			case 5:
+			searchEmployee();
 				break;
 			case 6:
 				break;
@@ -77,12 +80,12 @@ int main(){
 	
 	return 0;
 }
-int addEmployee(struct Employee list[], int n){
+void addEmployee(){
     char id[20];
     
     if(n >= MAX){
     	printf("Danh sach day!");
-    	return n;
+    	return ;
 	}
 
     // nhap ma nhan vien 
@@ -180,15 +183,11 @@ int addEmployee(struct Employee list[], int n){
 		}
 		
     }
-
     n++;
-
     printf("Them nhan vien thanh cong!\n");
-    
-    return n;
 }
 
-int updateEmployee(struct Employee list[], int n){
+void updateEmployee(){
 	char id[20];
 	int pos = -1; 
 	 
@@ -250,11 +249,9 @@ int updateEmployee(struct Employee list[], int n){
     }
     
     printf("Cap nhat ho so nhan vien thanh cong!\n");
-    
-    return n;
 }
 
-int deleteEmployee (struct Employee list[], int n){
+void deleteEmployee (){
 	char id[20];
 	int pos = -1;
 	
@@ -289,11 +286,9 @@ int deleteEmployee (struct Employee list[], int n){
 	}
 	n--;
 	printf("Xoa nhan vien %s thanh cong!\n",id);
-	
-	return n;
 }
 
-void displayEmployee(struct Employee list[], int n) {
+void displayEmployee() {
     if (n == 0) {
         printf("Danh sach nhan vien hien dang trong!\n");
         return;
@@ -314,6 +309,35 @@ void displayEmployee(struct Employee list[], int n) {
     }
 
     printf("Hien thi danh sach thanh cong!\n");
+}
+
+void searchEmployee(){
+	char name[50];
+	if(n == 0){
+		printf("Danh sach hien dang trong!\n");  //ktra danh sach trong
+		return;
+	}
+	
+		printf("Nhap ten nhan vien muon tim kiem: ");
+		fgets(name,50,stdin);
+		name[strcspn(name,"\n")] = '\0';
+		
+		int flag = 0;
+		for(int i = 0;i<n;i++){
+			if(strstr(list[i].name,name) != NULL){   //dung ham strstr de ktra chuoi con
+				printf("Ten nhan vien: %s\n",list[n].name);
+				printf("Chuc vu: %s\n", list[n].position);
+				printf("Luong: %lf\n",list[n].baseSalary);
+				printf("Ngay cong: %d\n",list[n].workDay);
+				flag = 1;
+			}
+		}
+		
+		if(!flag){
+			printf("Khong tim thay!\n");
+			return;
+		}
+
 }
 
 
