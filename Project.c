@@ -65,6 +65,7 @@ int main(){
 			searchEmployee();
 				break;
 			case 6:
+			sortEmployee();
 				break;
 			case 7:
 				break;
@@ -299,8 +300,8 @@ void displayEmployee() {
         return;
     }
 
-    int pageSize = 5;   // s? nhân viên m?i trang
-    int totalPage = (n + pageSize - 1) / pageSize;  // làm tr?n lên
+    int pageSize = 5;   // so nhan vien moi trang
+    int totalPage = (n + pageSize - 1) / pageSize;  // lam tron len
     int page;
 
     while (1) {
@@ -341,21 +342,27 @@ void displayEmployee() {
 void searchEmployee(){
 	char name[50];
 	if(n == 0){
-		printf("Danh sach hien dang trong!\n");  //ktra danh sach trong
+		printf("Danh sach hien dang trong!\n");  //ktra danh sach rong
 		return;
 	}
 	
 	printf("Nhap ten nhan vien muon tim kiem: ");
 	fgets(name,50,stdin);
 	name[strcspn(name,"\n")] = '\0';
+	
+	if (strlen(name) == 0) {
+        printf("Ten tim kiem khong duoc de trong!\n"); //ktra trong 
+        return;
+    }
+
 		
 	int flag = 0;
 	for(int i = 0;i<n;i++){
 		if(strstr(list[i].name,name) != NULL){   //dung ham strstr de ktra chuoi con
-			printf("Ten nhan vien: %s\n",list[n].name);
-			printf("Chuc vu: %s\n", list[n].position);
-			printf("Luong: %lf\n",list[n].baseSalary);
-			printf("Ngay cong: %d\n",list[n].workDay);
+			printf("Ten nhan vien: %s\n",list[i].name);
+			printf("Chuc vu: %s\n", list[i].position);
+			printf("Luong: %lf\n",list[i].baseSalary);
+			printf("Ngay cong: %d\n",list[i].workDay);
 			flag = 1;
 		}
 	}
@@ -408,15 +415,14 @@ void sortEmployee(){
     	}
 	
     	if(choose == 1){
-	    	printf("Sap xep danh sach tang dan thanh cong!\n");
+	    	printf("Sap xep danh sach tang dan theo luong thanh cong!\n");
 	    }
 		if (choose == 2){
-	    	printf("Sap xep danh sach giam dan thanh cong!\n");
+	    	printf("Sap xep danh sach giam dan theo luong thanh cong!\n");
     	}
     	break;
 	}
     	
 	
 }
-
 
