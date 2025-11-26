@@ -80,6 +80,8 @@ int main(){
 	
 	return 0;
 }
+
+//F01
 void addEmployee(){
     char id[20];
     
@@ -187,6 +189,7 @@ void addEmployee(){
     printf("Them nhan vien thanh cong!\n");
 }
 
+//F02
 void updateEmployee(){
 	char id[20];
 	int pos = -1; 
@@ -251,6 +254,7 @@ void updateEmployee(){
     printf("Cap nhat ho so nhan vien thanh cong!\n");
 }
 
+//F03
 void deleteEmployee (){
 	char id[20];
 	int pos = -1;
@@ -288,19 +292,41 @@ void deleteEmployee (){
 	printf("Xoa nhan vien %s thanh cong!\n",id);
 }
 
+//F04
 void displayEmployee() {
     if (n == 0) {
         printf("Danh sach nhan vien hien dang trong!\n");
         return;
     }
 
-    printf("\n====================== DANH SACH NHAN VIEN ======================\n");
+    int pageSize = 5;   // s? nhân viên m?i trang
+    int totalPage = (n + pageSize - 1) / pageSize;  // làm tr?n lên
+    int page;
+
+    while (1) {
+        printf("\nNhap trang muon xem (1 ? %d): ", totalPage);
+        scanf("%d", &page);
+        getchar();
+
+        if (page < 1 || page > totalPage) {
+            printf("So trang khong hop le! Vui long nhap lai.\n");
+            continue;
+        }
+        break;
+    }
+
+    int start = (page - 1) * pageSize;
+    int end = start + pageSize;
+    if (end > n) end = n;
+
+    printf("\n=============== DANH SACH NHAN VIEN — TRANG %d/%d ===============\n",
+           page, totalPage);
     printf("%-10s | %-20s | %-12s | %-10s | %-5s\n",
            "Ma NV", "Ten NV", "Chuc vu", "Luong", "Cong");
     printf("-------------------------------------------------------------------\n");
 
-    for (int i = 0; i < n; i++) {
-        printf("%-10s | %-20s | %-12s | %-10.0lf | %-5d\n",
+    for (int i = start; i < end; i++) {
+        printf("%-10s | %-20s | %-12s | %-10.10f | %-5d\n",
                list[i].empId,
                list[i].name,
                list[i].position,
@@ -308,9 +334,10 @@ void displayEmployee() {
                list[i].workDay);
     }
 
-    printf("Hien thi danh sach thanh cong!\n");
+    printf("Hien thi thanh cong!\n");
 }
 
+//F05
 void searchEmployee(){
 	char name[50];
 	if(n == 0){
@@ -318,26 +345,77 @@ void searchEmployee(){
 		return;
 	}
 	
-		printf("Nhap ten nhan vien muon tim kiem: ");
-		fgets(name,50,stdin);
-		name[strcspn(name,"\n")] = '\0';
+	printf("Nhap ten nhan vien muon tim kiem: ");
+	fgets(name,50,stdin);
+	name[strcspn(name,"\n")] = '\0';
 		
-		int flag = 0;
-		for(int i = 0;i<n;i++){
-			if(strstr(list[i].name,name) != NULL){   //dung ham strstr de ktra chuoi con
-				printf("Ten nhan vien: %s\n",list[n].name);
-				printf("Chuc vu: %s\n", list[n].position);
-				printf("Luong: %lf\n",list[n].baseSalary);
-				printf("Ngay cong: %d\n",list[n].workDay);
-				flag = 1;
-			}
+	int flag = 0;
+	for(int i = 0;i<n;i++){
+		if(strstr(list[i].name,name) != NULL){   //dung ham strstr de ktra chuoi con
+			printf("Ten nhan vien: %s\n",list[n].name);
+			printf("Chuc vu: %s\n", list[n].position);
+			printf("Luong: %lf\n",list[n].baseSalary);
+			printf("Ngay cong: %d\n",list[n].workDay);
+			flag = 1;
 		}
+	}
 		
-		if(!flag){
-			printf("Khong tim thay!\n");
-			return;
-		}
+	if(!flag){
+		printf("Khong tim thay!\n");
+		return;
+	}
 
 }
 
+// F06
+void sortEmployee(){
+	if (n == 0) {
+        printf("Danh sach nhan vien hien dang trong!\n");
+        return;
+    }
+    
+    int choose;
+    while(1){
+    	printf("1.Tang dan\n");
+        printf("2.Giam dan\n");
+        printf("Nhap lua chon: ");
+        scanf("%d",&choose);
+        getchar();
+        
+        if(choose != 1 || choose != 2){
+        	printf("Lua chon khong hop le!\n");
+        	continue;
+		}
+    
+        int swap = 0;
+        struct Employee temp;
+    
+        for(int i = 0; i < n-1 ;i++){
+        	for(int j = 0;j < n-1-i ;j++){
+        		swap = 0;
+    	    	if(choose == 1 && list[j].baseSalary > list[j+1].baseSalary){   //SX TANG DAN
+    		    	swap = 1;
+			    }
+			    if(choose == 2 && list[j].baseSalary < list[j+1].baseSalary){   //SX GIAM DAN
+				    swap = 1;
+		    	}
+    		    if(swap == 1){  //hoan doi
+    		    	temp = list[j];
+    		    	list[j] = list[j+1];
+    			    list[j+1] = temp;
+		    	}	
+	    	}
+    	}
+	
+    	if(choose == 1){
+	    	printf("Sap xep danh sach tang dan thanh cong!\n");
+	    }
+		if (choose == 2){
+	    	printf("Sap xep danh sach giam dan thanh cong!\n");
+    	}
+    	break;
+	}
+    	
+	
+}
 
