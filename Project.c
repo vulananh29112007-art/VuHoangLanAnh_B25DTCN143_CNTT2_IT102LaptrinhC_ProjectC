@@ -382,7 +382,7 @@ void sortEmployee(){
         scanf("%d",&choose);
         getchar();
         
-        if(choose != 1 || choose != 2){
+        if(choose != 1 && choose != 2){
         	printf("Lua chon khong hop le!\n");
         	continue;
 		}
@@ -418,4 +418,5 @@ void sortEmployee(){
     	
 	
 }
+
 
