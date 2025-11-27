@@ -58,22 +58,22 @@ int main(){
 		
 		switch(choice){
 			case 1:
-			    addEmployee();
+			addEmployee();
 				break;
 			case 2:
-			    updateEmployee();
+			updateEmployee();
 				break;
 			case 3:
-			    deleteEmployee();
+			deleteEmployee();
 				break;
 			case 4:
-			    displayEmployee();
+			displayEmployee();
 				break;
 			case 5:
-			    searchEmployee();
+			searchEmployee();
 				break;
 			case 6:
-			    sortEmployee();
+			sortEmployee();
 				break;
 			case 7:
 				attendEmployee();
@@ -541,67 +541,67 @@ void attendEmployee() {
 void viewTimeSheet() {
     char empId[20];
     int pos = -1;
-    char currentDate[20]; // khogn can thiet
 
     if (n == 0) {
         printf("Khong co nhan vien nao trong danh sach!\n");
         return;
     }
 
-    // Nhpa mma nhan vien
+    // Nhap ma nhan vien 
     while(1) {
         printf("Nhap ma nhan vien can xem bang cong: ");
         fgets(empId, 20, stdin);
         empId[strcspn(empId, "\n")] = '\0';
-
-        if (strlen(empId) == 0) {
+        if(strlen(empId)==0) {
             printf("Ma nhan vien khong duoc de trong!\n");
             continue;
         }
-
-        for (int i = 0; i < n; i++) {
-            if (strcmp(list[i].empId, empId) == 0) {
+        for(int i=0; i<n; i++) {
+            if(strcmp(list[i].empId, empId)==0) {
                 pos = i;
                 break;
             }
         }
-        if (pos == -1) {
-            printf("Khong tim thay nhan vien! Nhap lai.\n");
-            continue;
+        if(pos != -1) break;
+        printf("Khong tim thay nhan vien! Nhap lai.\n");
+    }
+
+    // Lay ngay hom nay 
+    char today[20];
+    getCurrentDate(today);                 // vi du: "27/11/2025"
+    int day_now, month, year;
+    sscanf(today, "%d/%d/%d", &day_now, &month, &year);
+
+    printf("\n");
+    printf("===== BANG CHAM CONG THANG %02d/%d =====\n", month, year);
+    printf("Nhan vien: %s - %s\n\n", list[pos].empId, list[pos].name);
+    printf("Ngay   | Trang thai\n");
+    printf("-------|------------\n");
+
+    int cong = 0;
+    for(int d=1; d<=day_now; d++) {
+        char check[20];
+        sprintf(check, "%02d/%02d/%04d", d, month, year);
+
+        int daCham = 0;
+        for(int i=0; i<sheetCount; i++) {
+            if(strcmp(timeSheet[i].empId, empId)==0 && 
+               strcmp(timeSheet[i].date, check)==0) {
+                daCham = 1;
+                break;
+            }
         }
-        break;
-    }
 
-    // Hien thi thong tin nhan vien
-    printf("\n================ THONG TIN NHAN VIEN ================\n");
-    printf("Ma NV     : %s\n", list[pos].empId);
-    printf("Ho ten    : %s\n", list[pos].name);
-    printf("Chuc vu   : %s\n", list[pos].position);
-    printf("Luong CB  : %.2lf\n", list[pos].baseSalary);
-    printf("Ngay cong : %d\n", list[pos].workDay);
-    printf("================================================\n");
-
-    // In bang cham cong cua nhan vien nay
-    printf("\n--- Lich su cham cong ---\n");
-    printf("%-10s | %-12s | %s\n", "LogID", "Ngay", "Trang thai");
-    printf("----------------------------------------\n");
-
-    int found = 0;
-    for (int i = 0; i < sheetCount; i++) {
-        if (strcmp(timeSheet[i].empId, empId) == 0) {
-            printf("%-10s | %-12s | %s\n",
-                   timeSheet[i].logId,
-                   timeSheet[i].date,
-                   timeSheet[i].status);
-            found = 1;
+        if(daCham) {
+            printf("%2d     | Di lam\n", d);
+            cong++;
+        } else {
+            printf("%2d     | Vang\n", d);
         }
     }
 
-    if (!found) {
-        printf("Chua co lich su cham cong.\n");
-    }
-
-    printf("Tong cong: %d ngay lam viec.\n", list[pos].workDay);
+    printf("-------|------------\n");
+    printf("Tong cong: %d ngay di lam (tren %d ngay)\n\n", cong, day_now);
 }
 
 void getCurrentDate(char* date) {
@@ -618,6 +618,5 @@ void getCurrentDate(char* date) {
             tm_info->tm_mon + 1, 
             tm_info->tm_year + 1900);
 }
-
 
 
