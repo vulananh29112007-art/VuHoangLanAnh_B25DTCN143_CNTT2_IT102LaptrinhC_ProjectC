@@ -58,22 +58,22 @@ int main(){
 		
 		switch(choice){
 			case 1:
-			addEmployee();
+			    addEmployee();
 				break;
 			case 2:
-			updateEmployee();
+			    updateEmployee();
 				break;
 			case 3:
-			deleteEmployee();
+			    deleteEmployee();
 				break;
 			case 4:
-			displayEmployee();
+			    displayEmployee();
 				break;
 			case 5:
-			searchEmployee();
+			    searchEmployee();
 				break;
 			case 6:
-			sortEmployee();
+			    sortEmployee();
 				break;
 			case 7:
 				attendEmployee();
@@ -618,5 +618,6 @@ void getCurrentDate(char* date) {
             tm_info->tm_mon + 1, 
             tm_info->tm_year + 1900);
 }
+
 
 
