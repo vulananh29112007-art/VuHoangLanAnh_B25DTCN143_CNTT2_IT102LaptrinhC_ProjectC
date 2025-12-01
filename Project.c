@@ -1,7 +1,7 @@
-#include<stdio.h>
-#include<string.h>
-#include <time.h>
-#include<ctype.h> 
+#include<stdio.h>       //printf, scanf, fgets, getchar
+#include<string.h>      //strlen, strcmp, strcpy, strcspn, strncpy, strcat
+#include<stdlib.h>      //system("cls")
+#include<ctype.h>       //strcasecmp()
 #define MAX 1000
 
 struct Employee{
@@ -22,9 +22,6 @@ struct TimeSheet{
 struct Employee list[MAX];
 int n = 0; 
 
-struct TimeSheet timeSheet[MAX * 32];   
-int sheetCount = 0;
-
 void addEmployee ();
 void updateEmployee ();
 void deleteEmployee ();
@@ -34,8 +31,10 @@ void sortEmployee();
 
 int main(){
 	int choice;
+	char buffer[100];
 	
 	do{
+		system("cls"); 
 		printf("\n|=============================================|\n");
 	    printf("|        QUAN LY NHAN VIEN VA CHAM CONG       |");
 	    printf("\n|=============================================|\n");
@@ -50,9 +49,31 @@ int main(){
 	    printf("|  9.Thoat                                    |\n");
 	    printf("|=============================================|\n");
 		
-		printf("Moi ban nhap lua chon: ");
-		scanf("%d",&choice);
-		getchar(); 
+		while(1){
+			printf("Moi ban nhap lua chon: ");
+			fgets(buffer,100,stdin);
+			buffer[strcspn(buffer,"\n")] = '\0';
+			
+			if(strlen(buffer) == 0){  //kiem tra enter
+				printf("Khong duoc de trong!\n");
+				continue;
+			}
+			
+			if(buffer[0] < '1' || buffer[0] > '9'){  //kiem tra ngoai khoang
+				printf("Lua chon khong hop le!\n");
+				continue;
+			}
+			
+			if(strlen(buffer) > 1){  //kiem tra so luong nhap
+				printf("Chi duoc nhap 1 so!\n");
+				continue;
+			}
+			
+			choice = buffer[0] - '0';    //chuyen char thanh int
+			
+			break;
+		}
+		 
 		
 		switch(choice){
 			case 1:
